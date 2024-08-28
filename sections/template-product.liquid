@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script> 
 
 {% assign selected_variant = product.selected_or_first_available_variant %}
 
@@ -32,12 +32,12 @@
             </div>
 
             <div class="md:hidden">
-                <div class="swiper h-[22rem]">
-                    <div class="swiper-wrapper">
+                <div class="swiper">
+                    <div class="swiper-wrapper mb-4">
 
                         {% for media in product.media %}
                             <div class="swiper-slide">
-                                <div class="h-80 overflow-hidden p-2">
+                                <div class="h-[100vw] overflow-hidden p-2">
 
                                     {% render 'product-media', media: media %}
 
@@ -48,6 +48,8 @@
                         {% endfor %}
 
                     </div>
+
+                    <hr>
 
                     <div class="swiper-pagination"></div>
 
@@ -81,7 +83,7 @@
                             </div>
 
                         {% when 'price' %}
-                            <div class="my-3 id="price-{{ section.id }}">
+                            <div class="my-3" id="price-{{ section.id }}">
             
                                 <span class="text-base text-gray-500 line-through">{{ selected_variant.compare_at_price | money }}</span>
             
@@ -258,18 +260,25 @@
 </script>
 
 <script>
-    const swiper = new Swiper('.swiper', {
-        direction: 'horizontal',
 
-        pagination: {
-            el: '.swiper-pagination'
-        },
-
-        navigation: {
-            prevEl: '.swiper-button-prev',
-            nextEl: '.swiper-button-next'
-        },
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const swiper = new Swiper('.swiper', {
+                direction: 'horizontal',
+        
+                pagination: {
+                    el: '.swiper-pagination'
+                },
+        
+                navigation: {
+                    prevEl: '.swiper-button-prev',
+                    nextEl: '.swiper-button-next'
+                },
+            })
+            
+        } catch(e) { console.log("SwiperJS is not defined"); }
     })
+
 </script>
 
 {% schema %}
@@ -310,7 +319,7 @@
                 "type": "checkout_buttons",
                 "name": "Checkout Buttons",
                 "limit": 1
-            },
+            }
         ]
     }
 {% endschema %}
